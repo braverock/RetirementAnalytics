@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.pdf
+*.bak
+*.sav*
+*.log
+.DS_Store
+*cache*
+.vscode
+settings.json
+*_files
+*.html

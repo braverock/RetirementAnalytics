@@ -1,0 +1,1169 @@
+---
+title: "project_plan"
+author: "Brian G. Peterson"
+format: html
+---
+
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+## Background
+
+Retirement planning is a task that is highly quantitative in nature but is dominated by a small number of large commercial software packages, and is opaque to the open science analyst.  The code and techniques for effective retirement portfolio planning should be open source.
+
+## Related work
+
+This project should make use of existing work in the R ecosystem such as [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) and [PerformanceAnalytics](https://github.com/braverock/PerformanceAnalytics/), and the proposed RetirementAnalytics package should focus on new functionality.
+
+We can see how this book fits into the plan during the literature review: [Retirement Income Recipes in R](https://link.springer.com/book/10.1007/978-3-030-51434-1) with extras and code [here](https://moshemilevsky.com/wp-content/uploads/2021/05/RiRiR_Solution_Manual_21FEB2021.pdf)
+
+If we have additional time, we could model annuity assets in the retirement portfolio using calculations from a package 
+like [vamc](https://cran.r-project.org/web/packages/vamc/).
+
+## Objectives/ Project Details
+
+Our goal is to create a new package for retirement planning analytics including analysis of things such as:
+
+- safe withdrawal rates
+- strategies for withdrawal plans
+- different portfolio plans
+- Monte Carlo analysis with reasonable block samples and randomization
+- tax optimization strategies
+
+There are a few main pieces which could be accomplished in a GSoC:
+- literature review (before coding starts, in collaboration with the mentors)
+- framework for the package:
+  - taking in deposits and withdrawals
+  - asset returns for Monte Carlo and hypothetical portfolios
+  - different account types for tax optimization purposes
+  - different tax assumptions/regimes
+- Monte Carlo simulation for 
+  - asset returns and inflation
+  - yields (not the same as returns, and very important to retirement planning)
+  - CPI (might be commingled with yields, or might be somewhat independent)
+  - plan duration (mortality of plan participants)
+- required portfolio size:
+  - using Monte Carlo assumptions
+  - income/growth assuming size
+  - required size given target income and Monte Carlo probabilities
+- portfolio construction
+  - portfolio optimization objectives and constraints
+  - model multi-asset class benchmark portfolios ('better' than 60/40 domestic stock/bond)
+  - model portfolios at the security level
+  - inclusion of other income sources in plan (pensions, real estate, dividends)
+- support for various withdrawal strategies
+  - initial safe withdrawal rate (e.g. the 4% rule and its descendants)
+  - guardrails approach
+  - bucket plan
+  - income portfolios
+  - Social Security election timing
+
+
+## Expected impact
+
+Our goal during this project will be to establish a new package framework, and populate it 
+with key analytical tools.
+
+The internet is full of good and bad advice about retirement planning, but there are no 
+open frameworks for doing advanced retirement planning analysis.  A simple retirement 
+calculator with average rates of portfolio return is just a few lines of code in R or 
+python, but more advanced analysis is required to do research or advisory work on
+(potentially) real portfolios.
+
+This project will establish an open framework under an open source license, and hopefully 
+move the state of open science around retirement planning to new levels.  
+
+The project should generate markdown vignettes as functionality is created.  These
+should utilize open data sources (e.g. Federal Reserve, AQR, Dimson/Marsh/Staunton) 
+where possible. After the initial framework is established, we should anticipate a 
+vignette (or a significant new section on an existing vignette) approximately every 
+one to two weeks.
+ 
+
+## General Schedule
+
+Here is a very high level schedule assuming a 12 week timeline (approximately 30 hours 
+per week assuming Google's 350 hr project guideline).  Contributor proposals should 
+create a more detailed task-oriented schedule aligned with the target completion timeline 
+they want to aim for.
+
+Pre-Work:
+- reading literature and assembling bibliography
+- finding existing code snippets and more detailed planning with mentor team
+
+Week 1:
+- package framework builds
+- literature review in markdown as vignette
+
+Weeks 2-4:
+- data standards and examples
+- Monte Carlo framework
+  - asset returns
+  - inflation
+  - plan duration (mortality rate)
+- retirement portfolio size estimator functions
+- initial portfolio models (minimum variance and Markowitz, Black-Litterman)
+- application of Monte Carlo returns to the portfolios
+
+Weeks 5-8:
+- standardized output of
+  - return/risk metrics
+  - withdrawals/portfolio value
+  - success/failure rates, end of plan values
+- withdrawal plan: initial safe withdrawal rate
+- withdrawal plan: guardrails modifications of safe withdrawal rate
+- withdrawal plan: actuarially modified withdrawal rates (RMD, Blanchet, et.al.)
+- comparison of standardized outputs across different withdrawal plans
+
+Weeks 9-12:
+- withdrawal plan: bucket plan
+- withdrawal plan: income portfolio (e.g. bonds, dividends)
+- additional template portfolio optimization and rebalancing objectives
+- model portfolios
+- more vignettes and tests
+
+## Tests
+
+Contributors, please do one or more of the following tests before
+contacting the mentors above.
+
+### Monte Carlo Test: 
+
+A key portion of this project will be constructing Monte Carlo simulations for asset returns as well as interest rates (on cash) and yields (on bonds or other fixed income assets, as well as dividends).  Demonstrate a multi-variable block bootstrap function with randomized block size and random noise parameters for the input time series.  Use xts time series and assume 'wide' data construction.
+
+### Portfolio Construction Test:
+
+Easy:
+
+Use [PortfolioAnalytics](https://github.com/braverock/PortfolioAnalytics/) to construct and evaluate a multi-asset portfolio using a minimum variance and Markowitz portfolio.  Demonstrate comparing the outcome of the two portfolios using PortfolioAnalytics functions.
+
+Hard:
+
+Propose additional model portfolio objectives and constraints tailored to a retirement portfolio.  What risk metrics are appropriate?  why?  what return metrics should be used?  why?  compare your proposed retirement objective portfolio to the easy portfolios above
+
+## Future Work
+
+We would like to believe (despite historical evidence) that a superstar contributor will 
+make short work of the proposed scope above, and that we will be able to move on to 
+other advanced functionality.  It is far more likely that these topics will be areas 
+for future work, perhaps even future GSoC's.
+
+Some ideas for advanced topics in this field:
+
+**Tax Strategy:**
+- provide framework for modeling:
+  - tax brackets 
+  - capital gains taxes
+  - dividend taxation
+  - asset depreciation
+  - taxable/tax deferred/non-taxable accounts 
+- what assets should be in which accounts for tax reasons? (also known as "asset location" supplement to traditional asset allocation)
+- in what order and proportions are taxes minimized during withdrawals?
+- how do tax loss harvesting, depreciation, and other strategies fit in?
+
+**Alternative Assets:**
+- what are the tax and income implications of different alternative asset classes?
+- Real Estate/REITS (related but different)
+- Annuities (Fixed, Fixed Index, Variable, etc.)
+- Alternative Yield Products (lending, financing)
+- Alternative Asset Funds (Hedge Funds)
+- Global Income Strategies 
+
+
+## References:
+
+Blanchett, David, Maciej Kowara, and Peng Chen. "Optimal withdrawal strategy for retirement income portfolios." Retirement Management Journal 2, no. 3 (2012): 7-20.
+
+Estrada, Javier. "Managing to target (II): Dynamic adjustments for retirement strategies." The Journal of Retirement 7, no. 4 (2020): 28-38.
+
+Klinger, William J. "Guardrails to prevent potential retirement portfolio failure." Journal of Financial Planning 29, no. 10 (2016): 46.
+
+Lee, Sunwoo Tessa, and Sherman D. Hanna. "Financial knowledge overconfidence and early withdrawals from retirement accounts." Financial Planning Review 3, no. 2 (2020): e1091.
+
+Milevsky, Moshe Arye. "Retirement income recipes in R: From Ruin Probabilities To Intelligent Drawdown." Springer-Nature New York, 2020.
+
+Smith, Jason L. The Bucket Plan®: Protecting and Growing Your Assets for a Worry-Free Retirement 
+Greenleaf Book Group, 2017
+
+## Mentors
+
+- EVALUATING MENTOR [Justin M. Shea, Assistant Prof](https://www.linkedin.com/in/justinmshea/)
+author of `neverhpfilter`, `wooldridge`, and `phoenixdown` R packages. Contributor
+to `PerformanceAnalytics` and `FactorAnalytics` packages. justin.shea@gmail.com
+- [Brian Peterson](https://www.linkedin.com/in/briangpeterson/) has 
+developed some of the most popular R packages for quantitative finance, and has been a 
+GSOC administrator from 2008-present.
+- [Bryan Rodriguez, Quantitative Analyst - Windy Financial](https://www.linkedin.com/in/bryan506/)
+- [Jasen Mackie, Data Science Team Lead - Questrade Financial Group](https://www.linkedin.com/in/jasenmackie/)
+- [Erol Biceroglu, Manager Investment Policy - RBC Global Asset Management](https://www.linkedin.com/in/erolbiceroglu/)
+
+## Planning Framework Notes
+
+### Purpose of plan
+
+- what are the goals for retirement?
+- can these goals be met with the portfolio or desired invcome?
+
+### Retirement Income
+- sources of income (portfolio, pensions)
+- investment porttfolio
+- other cash flows (anuities, real estate, etc)
+
+### Evolution of Spending
+- "retirement spending smile"
+- go-go, slow-go , no-go
+
+### Investment Planning
+- sequence of returns risk
+- longevity risk (inflation)
+- volatility/market cycles risks
+
+### Tax Strategy
+
+### Income Protection
+- insurance
+- annuities
+- health, long-term care
+- account type conversions

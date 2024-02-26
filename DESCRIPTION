@@ -1,0 +1,31 @@
+Package: RetirementAnalytics
+Type: Package
+Date: 2024-02-26
+Title: Retirement Analysis Income, Spending, and Portfolio Scenarios and Tools
+Version: 0.1.0
+Authors@R: c(
+    person(given=c("Brian","G."),family="Peterson",role=c("cre","aut","cph"),
+    email="brian@braverock.com") ,
+    person(given="Justin",family="Shea",role=c("aut","cph"),
+    email="justin.shea@gmail.com") )
+Maintainer: Brian G. Peterson <brian@braverock.com>
+Description: Retirement planning is a task that is highly quantitative in nature 
+    but is dominated by a small number of large commercial software packages, 
+    and is opaque to the open science analyst.  The RetirementAnalytics 
+    package includes code and techniques for effective retirement portfolio 
+    planning under an open source/open science framework.
+License: GPL-3
+Depends:
+    R (>= 4.0.0),
+    zoo,
+    xts (>= 0.10-1),
+    foreach,
+    PerformanceAnalytics (>= 1.5.1),
+    PortfolioAnalytics (>= 2.0.0)
+Suggests:
+    roxygen
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/braverock/RetirementAnalytics
+Copyright: (c) 2024
+
