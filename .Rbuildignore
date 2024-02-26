@@ -1,3 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 sandbox
+*.yml
+\.git
+\.gitignore
+\.orig$
+\.gitattributes
+^.*\.vimrc
