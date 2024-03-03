@@ -32,7 +32,8 @@ Depends:
 Suggests:
     roxygen,
     tinytest,
-    quarto
+    quarto,
+    DiagrammeR
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder:  
