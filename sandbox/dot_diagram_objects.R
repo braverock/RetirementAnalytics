@@ -76,5 +76,15 @@ digraph retirement_object_diagram {  # 'digraph' means 'directional graph', then
   }
 
   Scenario -> {Household Retirement Plan Portfolios} -> Simulation -> {SWR Probability Reports}
+
+  subgraph cluster_reports{
+    Reports
+    Withdrawal [label='Account\nWithdrawal\nSequencing']
+    Tax        [label='Tax Plan']
+    MC         [label='Monte Carlo\nSimulation']
+    PR         [label='Portfolio Reports']
+  }
+
+  Reports -> {Withdrawal Tax MC PR}
 }
 ")
