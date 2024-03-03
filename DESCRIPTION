@@ -30,9 +30,15 @@ Depends:
     PerformanceAnalytics (>= 1.5.1),
     PortfolioAnalytics (>= 2.0.0)
 Suggests:
-    roxygen
+    roxygen,
+    tinytest,
+    quarto
 Encoding: UTF-8
 LazyData: true
+VignetteBuilder:  
+     knitr, 
+     rmarkdown,
+     quarto 
 URL: https://github.com/braverock/RetirementAnalytics
 Copyright: (c) 2024
 
