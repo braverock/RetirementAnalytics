@@ -1,0 +1,18 @@
+---
+title: "Developer Log: Simone Mugnai"
+author: "Simone Mugnai"
+date: "23/05/2024"
+output: html_document
+---
+
+## 23/05/2024
+
+### Repository Setup:
+- Cloned and set up the repository in RStudio.
+- Initial commit: Added myself to the authors list in the DESCRIPTION file to test the setup.
+
+### Documentation:
+- Created a Developer log to keep track of progress and tasks.
+
+### Planned for Tomorrow:
+- Start drafting the "person" class using S3 or R6.
