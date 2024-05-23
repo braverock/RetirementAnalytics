@@ -7,7 +7,10 @@ Authors@R: c(
     person(given=c("Brian","G."),family="Peterson",role=c("cre","aut","cph"),
     email="brian@braverock.com") ,
     person(given="Justin",family="Shea",role=c("aut","cph"),
-    email="justin.shea@gmail.com") )
+    email="justin.shea@gmail.com"),
+    person=(given="Simone",family="Mugnai",role=c("cre","aut"),
+    email="simone.mugnai@yahoo.it")
+    )
 Maintainer: Brian G. Peterson <brian@braverock.com>
 Description: Retirement planning is a task that is highly quantitative in nature 
     but is dominated by a small number of large commercial software packages, 
