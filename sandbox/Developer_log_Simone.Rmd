@@ -21,3 +21,18 @@ output: html_document
 
 - Studied and completed exercises on the S3-R6 OOP system.
 - Read a paper about Monte Carlo simulation for analyzing the impact of various factors on retirement planning: ["The Impact of Asset Allocation, Savings and Retirement Horizons, Savings Rates, and Social Security Income in Retirement Planning: A Monte Carlo Analysis"](https://www.researchgate.net/profile/Joseph-Smolira/publication/228709986_The_Impact_of_Asset_Allocation_Savings_and_Retirement_Horizons_Savings_Rates_and_Social_Security_Income_in_Retirement_Planning_A_Monte_Carlo_Analysis/links/0c96052ed47bf9dcb5000000/The-Impact-of-Asset-Allocation-Savings-and-Retirement-Horizons-Savings-Rates-and-Social-Security-Income-in-Retirement-Planning-A-Monte-Carlo-Analysis.pdf) by Joseph Smolira.
+
+
+
+## 26/05/2024
+
+- Uploaded S3 and R6 draft of Person class.
+  
+  I think S3 could be a better choice to have more freedom in defining and using methods across different classes and objects in general. This flexibility could be beneficial in terms of defining various key functions to improve the generalization of the package, allowing it to be used with different frameworks and leveraging it effectively.
+
+- Nonetheless, R6 with encapsulation could be more clear from a user's perspective. By defining the main attributes and methods for all classes, it can be used almost in sequence to have a very ordered simulation and scenario. The downside is that it could become a bit too strict in terms of the possible generalitation of the package.
+
+
+
+
+
