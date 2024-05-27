@@ -32,6 +32,13 @@ output: html_document
 
 - Nonetheless, R6 with encapsulation could be more clear from a user's perspective. By defining the main attributes and methods for all classes, it can be used almost in sequence to have a very ordered simulation and scenario. The downside is that it could become a bit too strict in terms of the possible generalitation of the package.
 
+##27/05/2024
+
+- End of the community bonding period
+- Scheduled a meeting on Wednesday
+- Studied and reviewed some basic R packages that could be helpful for later simulations
+
+
 
 
 
