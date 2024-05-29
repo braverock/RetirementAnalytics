@@ -32,13 +32,23 @@ output: html_document
 
 - Nonetheless, R6 with encapsulation could be more clear from a user's perspective. By defining the main attributes and methods for all classes, it can be used almost in sequence to have a very ordered simulation and scenario. The downside is that it could become a bit too strict in terms of the possible generalitation of the package.
 
-##27/05/2024
+## 27/05/2024
 
 - End of the community bonding period
 - Scheduled a meeting on Wednesday
 - Studied and reviewed some basic R packages that could be helpful for later simulations
 
+## 29/05/2024
 
+- **Meeting with Mentors:** Discussed the test of the `Person` class and decided to use the S3 OOP system. It was the safer choice, as R6 did not provide significant advantages at this stage.
+- Set up the next planned activities for the package development.
+- Discussed the probability of success and how to visualize and interpret it.
+- Renamed and moved the test of the S3 `Person` class to the `R` folder.
+
+### Planned
+
+- Start developing the `Household` class.
+- Study how R packages are built and the best practices in R package development.
 
 
 
