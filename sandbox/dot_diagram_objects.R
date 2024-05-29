@@ -21,6 +21,7 @@ digraph retirement_object_diagram {  # 'digraph' means 'directional graph', then
     Household   [label = 'Household']
     Person     [label = 'Person A']
     PersonB     [label = 'Person B']
+    Expenses
     Account    [label = 'Account A',
                  fontcolor = darkgreen]
     AccountB    [label = 'Account B',
@@ -31,7 +32,7 @@ digraph retirement_object_diagram {  # 'digraph' means 'directional graph', then
   }
 
   # edges
-  {Household} -> {Person PersonB}
+  {Household} -> {Expenses Person PersonB}
 
   Person   -> {Account AccountJWROS}
 
@@ -66,6 +67,7 @@ digraph retirement_object_diagram {  # 'digraph' means 'directional graph', then
   subgraph cluster_scenario {
     Scenario
     Household
+    Inflation   [label = 'Inflation\nModel']
     Retirement  [label = 'Target\nRetirement Date']
     Plan        [label = 'Withdrawal Plan']
     Portfolios  [label = 'Portfolio Models\nobjectives constraints rebalancing']
@@ -75,7 +77,7 @@ digraph retirement_object_diagram {  # 'digraph' means 'directional graph', then
     Reports
   }
 
-  Scenario -> {Household Retirement Plan Portfolios} -> Simulation -> {SWR Probability Reports}
+  Scenario -> {Household Retirement Plan Portfolios Inflation} -> Simulation -> {SWR Probability Reports}
 
   subgraph cluster_reports{
     Reports
