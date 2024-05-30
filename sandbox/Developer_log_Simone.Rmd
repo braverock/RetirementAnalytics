@@ -50,6 +50,11 @@ output: html_document
 - Start developing the `Household` class.
 - Study how R packages are built and the best practices in R package development.
 
+## 30/05/2024
+
+- Study Package development in R
+- Deleted person_R6_test in Sandbox
+
 
 
 
