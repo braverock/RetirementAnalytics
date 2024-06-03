@@ -56,5 +56,23 @@ output: html_document
 - Deleted person_R6_test in Sandbox
 
 
+## Developer Log: 03/05/2024
+
+### Progress
+- Implemented and learned R `roxygen2` grammar to generate comments and documentation.
+- Learned about `devtools` and `testthat`.
+- Studied package development in R.
+- Started developing the `Household` class in the Sandbox:
+  - Implemented basic functions such as `summary`, `add_person`, and `total_income`.
+
+### Issues Encountered
+- **Summary Function**: The `summary` function does not show the information correctly and returns more metadata than necessary.
+- **Total Income Function**: Encountered an error with the `total_income` function, but it should be easily solvable tomorrow.
+
+### Next Steps
+- Create a `tests` directory and try to run unit tests on the developed class.
+
+
+
 
 
