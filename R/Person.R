@@ -1,6 +1,15 @@
-#### Test for S3 oop Person class: ####
+#' Create a Person
+#'
+#' This function creates a person object.
+#'
+#' @param name The name of the person.
+#' @param birth_date The birth date of the person.
+#' @param income The income of the person.
+#' @param retirement_date The retirement date of the person.
+#' @param longevity The expected longevity of the person.
+#' @return A Person object.
+#' @export
 
-# constructor for person class
 create_person <- function(name,birth_date,income,retirement_date,longevity){
   person <- list(
     name = name,
@@ -13,24 +22,37 @@ create_person <- function(name,birth_date,income,retirement_date,longevity){
   return(person)
 }
 
-# Generic function to calculate age
+#' Calculate Age
+#'
+#' This function calculates the age of a person.
+#'
+#' @param person A Person object.
+#' @return The age of the person.
+#' @export
 
 calculate_age<-function(person,...){
   UseMethod("calculate_age")
 }
 
-#specific method for Person class
+#' @export
 calculate_age.Person<-function(person,...){
   age <- as.numeric(difftime(Sys.Date(),person$birth_date,units = "weeks"))/ 52.25
   return(floor(age))
 }
 
-#Generic function to calculate retirement age
+#' Calculate Retirement Age
+#'
+#' This function calculates the age of a person at retirement.
+#'
+#' @param person A Person object.
+#' @param retirement_date The retirement date.
+#' @return The age of the person at retirement.
+#' @export
 retirement <- function(person,retirement_date,...){
   UseMethod("retirement")
 }
 
-#specific method for Person class
+#' @export
 retirement.Person<-function(person,...){
   age_at_retirement<-as.numeric(difftime(person$retirement_date,person$birth_date,units = "weeks"))/52.25
   return(floor(age_at_retirement))
@@ -38,8 +60,12 @@ retirement.Person<-function(person,...){
 }
 
 
-#summary function for Person
-
+#' Summary of Person
+#'
+#' This function provides a summary of the person.
+#'
+#' @param object A Person object.
+#' @export
 summary.Person<-function(object,...){
   age<-calculate_age(object)
   summary <- cat(
@@ -55,17 +81,7 @@ summary.Person<-function(object,...){
 
 
 
-#### Example usage ####
-person <- create_person(name = "John Doe", birth_date = "1980-01-01", income = 60000, retirement_date = "2045-01-01", longevity = 85)
 
-# Test summary function
-summary(person)
-
-# Test calculate_age function
-cat("Calculated Age: ", calculate_age(person), " years\n")
-
-# Test retirement function
-cat("Age at Retirement: ", retirement(person), " years\n")
 
 
 
