@@ -56,7 +56,7 @@ output: html_document
 - Deleted person_R6_test in Sandbox
 
 
-## Developer Log: 03/05/2024
+##  03/05/2024
 
 ### Progress
 - Implemented and learned R `roxygen2` grammar to generate comments and documentation.
@@ -71,6 +71,18 @@ output: html_document
 
 ### Next Steps
 - Create a `tests` directory and try to run unit tests on the developed class.
+
+## 05/06/2024
+
+### Progress
+-correct the Household error
+-Progress in understanding package development
+-created test vignette
+
+### Issues Encountered
+- Having problem when try to built the package and to load_all(*)
+- I have still to understand how the build works in general especially the import and export
+
 
 
 
