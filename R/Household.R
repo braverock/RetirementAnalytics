@@ -34,7 +34,7 @@ create_household <- function(household_name,person=list()) {
 
 add_person <- function(household, person, role) {
   person$role <- role
-  household$persons <- append(household$persons, list(person))
+  household$person <- append(household$person, list(person))
   return(household)
 }
 
@@ -51,7 +51,7 @@ sum_income <- function(household, ...) {
 }
 
 sum_income.Household <- function(household, ...) {
-  total_income <- sum(sapply(household$persons, function(person) person$income))
+  total_income <- sum(sapply(household$person, function(person) person$income))
   return(total_income)
 }
 
@@ -66,10 +66,10 @@ sum_income.Household <- function(household, ...) {
 
 summary.Household <- function(object, ...) {
   cat("Household Name:", object$household_name, "\n")
-  cat("Number of Persons:", length(object$persons), "\n")
+  cat("Number of Persons:", length(object$person), "\n")
   cat("Persons Details:\n")
-  for (i in 1:length(object$persons)) {
-    person <- object$persons[[i]]
+  for (i in 1:length(object$person)) {
+    person <- object$person[[i]]
     cat("Role:", person$role, "\n")
     summary.Person(person)
     cat("\n")
