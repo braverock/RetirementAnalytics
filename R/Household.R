@@ -50,6 +50,7 @@ sum_income <- function(household, ...) {
   UseMethod("sum_income")
 }
 
+#' @export
 sum_income.Household <- function(household, ...) {
   total_income <- sum(sapply(household$person, function(person) person$income))
   return(total_income)
@@ -62,7 +63,7 @@ sum_income.Household <- function(household, ...) {
 #' This function provides a summary of the household.
 #'
 #' @param object The household object.
-#' @expor
+#' @export
 
 summary.Household <- function(object, ...) {
   cat("Household Name:", object$household_name, "\n")

@@ -35,7 +35,7 @@ calculate_age<-function(person,...){
 }
 
 #' @export
-calculate_age.Person<-function(person,...){
+calculate_age.Person<-function(person){
   age <- as.numeric(difftime(Sys.Date(),person$birth_date,units = "weeks"))/ 52.25
   return(floor(age))
 }
@@ -53,7 +53,7 @@ retirement <- function(person,retirement_date,...){
 }
 
 #' @export
-retirement.Person<-function(person,...){
+retirement.Person<-function(person,retirement_date){
   age_at_retirement<-as.numeric(difftime(person$retirement_date,person$birth_date,units = "weeks"))/52.25
   return(floor(age_at_retirement))
 
@@ -66,7 +66,8 @@ retirement.Person<-function(person,...){
 #'
 #' @param object A Person object.
 #' @export
-summary.Person<-function(object,...){
+
+summary.Person<-function(object){
   age<-calculate_age(object)
   summary <- cat(
     "Name:", object$name, "\n",
