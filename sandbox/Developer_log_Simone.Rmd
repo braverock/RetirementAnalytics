@@ -83,7 +83,60 @@ output: html_document
 - Having problem when try to built the package and to load_all(*)
 - I have still to understand how the build works in general especially the import and export
 
+## 06/06/2024
 
+In the meeting, we discussed some parameters that could be needed in order to start calculating the probability of success. This should be a list for my own memo and should be expanded with anything I might have missed or not correctly specified.
+
+In general, in addition to Household and the Person Class, we should decide how our income in retirement should be used. In general, a more conservative approach is preferable, where the capital is kept more or less constant considering the withdrawing and inflation, -the case where the capital is entirely used until the "end" seems more of an edge case at the moment-. 
+To do this, we should first define the account attributes linked to a specific person, which should be shared with the Person and Household class. Also, other types of investments should be considered in addition to just bonds, shares, and cash. A return should be estimated for these investments (probably this parameter should be set as default values and then have the possibility to specify it according to specific needs). Also, a safe rate of withdrawal, which could be considered around 3%, should be picked for the simulation. This could be considered a safe average between a higher and a lower rate that should be able to keep the capital more or less consistent, considering the volatility of the market in the short run. Additionally, inflation should be considered, probably at the beginning keeping it constant at the Fed's target.
+
+For the tax bracket, this is the part where I have the most doubts, considering that it is generally progressive with customarily tax-bracket. Additionally, different investment movements and accounts have different rules, so this should be the part with more attention and research.
+
+For the actual simulation of the probability of success, I thought of doing this, but I'm quite new to this simulation scenario, so here is where I think I need some guidance:
+
+I thought about the obvious choice so Monte Carlo simulations  to model the uncertainty in financial planning. So simulate a large number of possible future outcomes based on random sampling of variables.
+
+After having defined the initial conditions. These conditions include the current age, retirement age, life expectancy, current savings, and income. These parameters set the baseline for the simulation and help determine the starting point for future projections.
+
+Next, we generate random variables for each year of the simulation. These random variables include investment returns, inflation rates, and any other stochastic variables that can impact the financial plan. The randomness in these variables allows the simulation to capture a wide range of possible future scenarios, reflecting the inherent uncertainty in financial markets and economic conditions.
+
+ typically after a huge number of simulation, let's say 10,000 scenarios or more. In each iteration, the random variables are varied, and the retirement savings are projected forward year by year. This process generates a distribution of possible outcomes, providing a comprehensive view of potential future financial states.
+
+To calculate the outcomes, we determine the end balance of retirement savings for each scenario. This involves applying the mathematical formulation of the savings balance over time. Specifically, the savings at time \( t \) ( \( S_t \) ) is calculated as follows:
+
+\[ S_t = S_{t-1} \times (1 + r_t) - W_t \]
+
+where \( S_t \) is the savings at time \( t \), \( r_t \) is the annual return at time \( t \) (randomly generated based on expected return and volatility), and \( W_t \) is the annual withdrawal at time \( t \) (adjusted for inflation).
+
+Finally, we estimate the probability of success by calculating the proportion of simulations where the retirement savings are sufficient to cover expenses until the end of life expectancy. This metric provides a clear indication of the likelihood that the financial plan will meet its goals, helping to inform decision-making and adjustments to the plan as needed.
+
+
+
+### Bullet Points
+
+1. **Account Attributes**:
+    - Linked to specific persons
+    - Shared with Person and Household classes
+
+2. **Investment Types**:
+    - Bonds
+    - Shares
+    - Cash
+    - Other investments (to be defined)
+    - Default return values (modifiable)
+
+3. **Withdrawal Strategy**:
+    - Safe withdrawal rate: ~3%
+    - Conservative approach to maintain capital
+    - Consider market volatility
+
+4. **Inflation**:
+    - Initial assumption: constant at Fed's target rate
+
+5. **Tax Brackets**:
+    - Progressive structure
+    - Different rules for various investment accounts
+    - Requires detailed research and attention
 
 
 
