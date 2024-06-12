@@ -33,7 +33,7 @@ Depends:
     PerformanceAnalytics (>= 1.5.1),
     PortfolioAnalytics (>= 1.1.0)
 Suggests:
-    roxygen,
+    roxygen2,
     tinytest,
     quarto,
     DiagrammeR
