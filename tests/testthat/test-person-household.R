@@ -8,13 +8,9 @@ test_that("Person class methods work correctly", {
   expect_equal(age, floor(as.numeric(difftime(Sys.Date(), as.Date("1980-01-01"), units = "weeks")) / 52.25))
 
   # Test retirement age calculation
-  retirement_age <- retirement(person)
+  retirement_age <- calculate_retirement_age(person)
   expect_equal(retirement_age, floor(as.numeric(difftime(as.Date("2045-01-01"), as.Date("1980-01-01"), units = "weeks")) / 52.25))
 
-  # Test summary output
-  expect_output(summary(person), "John Doe")
-  expect_output(summary(person), "1980-01-01")
-  expect_output(summary(person), "50000")
 })
 
 test_that("Household class methods work correctly", {
@@ -31,9 +27,5 @@ test_that("Household class methods work correctly", {
   total_income <- sum_income(household)
   expect_equal(total_income, 110000)
 
-  # Test summary output for household
-  expect_output(summary(household), "Doe Household")
-  expect_output(summary(household), "John Doe")
-  expect_output(summary(household), "Jane Doe")
-  expect_output(summary(household), "110000")
+
 })

@@ -1,83 +1,70 @@
-#' Create a Household
+#' Create a household
 #'
 #' This function creates a household object.
 #'
 #' @param household_name The name of the household.
 #' @param persons A list of persons in the household.
-#' @return A Household object.
+#' @return A household object.
 #' @export
 
 #### Constructor ####
 
-create_household <- function(household_name,person=list()) {
+create_household <- function(household_name, persons = list()) {
   stopifnot(is.character(household_name))
   household <- list(
     household_name = household_name,
-    person = person
+    persons = persons
   )
-  class(household)<- "Household"
-  return(household)
+  structure(household, class = c("household", "list"))
 }
 
-
-#' Add a Person to a Household
+#' Add a person to a household
 #'
 #' This function adds a person to the household and assigns a role.
 #'
 #' @param household The household object.
 #' @param person The person object to add.
 #' @param role The role of the person in the household.
-#' @return The updated Household object.
+#' @return The updated household object.
 #' @export
-
-
-
 add_person <- function(household, person, role) {
   person$role <- role
-  household$person <- append(household$person, list(person))
+  household$persons <- append(household$persons, list(person))
   return(household)
 }
 
-#' Sum Income of Household
+#' Sum income of household
 #'
 #' This function sums the income of all persons in the household.
 #'
 #' @param household The household object.
 #' @return The total income of the household.
 #' @export
-
 sum_income <- function(household, ...) {
   UseMethod("sum_income")
 }
 
 #' @export
-sum_income.Household <- function(household, ...) {
-  total_income <- sum(sapply(household$person, function(person) person$income))
+sum_income.household <- function(household, ...) {
+  total_income <- sum(sapply(household$persons, function(person) person$income))
   return(total_income)
 }
 
-
-
-#' Summary of Household
+#' Summary of household
 #'
 #' This function provides a summary of the household.
 #'
 #' @param object The household object.
 #' @export
-
-summary.Household <- function(object, ...) {
+summary.household <- function(object, ...) {
   cat("Household Name:", object$household_name, "\n")
-  cat("Number of Persons:", length(object$person), "\n")
+  cat("Number of Persons:", length(object$persons), "\n")
   cat("Persons Details:\n")
-  for (i in 1:length(object$person)) {
-    person <- object$person[[i]]
+  for (i in 1:length(object$persons)) {
+    person <- object$persons[[i]]
     cat("Role:", person$role, "\n")
-    summary.Person(person)
+    summary.person(person)
     cat("\n")
   }
   cat("Total Household Income:", sum_income(object), "\n")
 }
-
-
-
-

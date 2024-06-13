@@ -1,4 +1,4 @@
-#' Create a Person
+#' Create a person
 #'
 #' This function creates a person object.
 #'
@@ -7,84 +7,69 @@
 #' @param income The income of the person.
 #' @param retirement_date The retirement date of the person.
 #' @param longevity The expected longevity of the person.
-#' @return A Person object.
+#' @return A person object.
 #' @export
-
-create_person <- function(name,birth_date,income,retirement_date,longevity){
+create_person <- function(name, birth_date, income, retirement_date, longevity) {
   person <- list(
     name = name,
     birth_date = as.Date(birth_date),
-    income=income,
-    retirement_date= as.Date(retirement_date),
-    longevity=longevity
+    income = income,
+    retirement_date = as.Date(retirement_date),
+    longevity = longevity
   )
-  class(person) <- "Person"
-  return(person)
+  structure(person, class = c("Person", "list"))
 }
 
-#' Calculate Age
+#' Calculate age
 #'
 #' This function calculates the age of a person.
 #'
-#' @param person A Person object.
+#' @param person A person object.
 #' @return The age of the person.
 #' @export
-
-calculate_age<-function(person,...){
+calculate_age <- function(person, ...) {
   UseMethod("calculate_age")
 }
 
 #' @export
-calculate_age.Person<-function(person){
-  age <- as.numeric(difftime(Sys.Date(),person$birth_date,units = "weeks"))/ 52.25
+calculate_age.Person <- function(person) {
+  age <- as.numeric(difftime(Sys.Date(), person[["birth_date"]], units = "weeks")) / 52.25
   return(floor(age))
 }
 
-#' Calculate Retirement Age
+#' Calculate retirement age
 #'
 #' This function calculates the age of a person at retirement.
 #'
-#' @param person A Person object.
-#' @param retirement_date The retirement date.
+#' @param person A person object.
 #' @return The age of the person at retirement.
 #' @export
-retirement <- function(person,retirement_date,...){
-  UseMethod("retirement")
+calculate_retirement_age <- function(person, ...) {
+  UseMethod("calculate_retirement_age")
 }
 
 #' @export
-retirement.Person<-function(person,retirement_date){
-  age_at_retirement<-as.numeric(difftime(person$retirement_date,person$birth_date,units = "weeks"))/52.25
+calculate_retirement_age.Person <- function(person) {
+  age_at_retirement <- as.numeric(difftime(person[["retirement_date"]], person[["birth_date"]], units = "weeks")) / 52.25
   return(floor(age_at_retirement))
-
 }
 
-
-#' Summary of Person
+#' Summary of person
 #'
 #' This function provides a summary of the person.
 #'
-#' @param object A Person object.
+#' @param object A person object.
+#' @return A list containing the summary information of the person.
 #' @export
-
-summary.Person<-function(object){
-  age<-calculate_age(object)
-  summary <- cat(
-    "Name:", object$name, "\n",
-    "Birth Date:", format(object$birth_date, "%Y-%m-%d"), "\n",
-    "Income:", object$income, "\n",
-    "Retirement_date:", format(object$retirement_date, "%Y-%m-%d"), "\n",
-    "Longevity:", object$longevity, "years\n",
-    "Current Age:", age, "years\n"
+summary.Person <- function(object) {
+  age <- calculate_age(object)
+  summary_list <- list(
+    Name = object[["name"]],
+    Birth_Date = format(object[["birth_date"]], "%Y-%m-%d"),
+    Income = object[["income"]],
+    Retirement_Date = format(object[["retirement_date"]], "%Y-%m-%d"),
+    Longevity = object[["longevity"]],
+    Current_Age = age
   )
-
+  return(summary_list)
 }
-
-
-
-
-
-
-
-
-
