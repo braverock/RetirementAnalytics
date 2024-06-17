@@ -189,6 +189,32 @@ I began testing the implementation of the account attribute and associated metho
 
 
 
+## 12/06/2024
+
+Meeting: We started to plan the draft of the `Scenario` class. We modified the constructor, using structure and making it inherit from the list. In addition, we decided to start with a simple scenario using multivariate bootstrap with a simple portfolio with automatic rebalancing. The `Account` should be a class of its own, with a flag indicating if it is taxable, non-taxable, or deferred taxable.
+
+## 13/06/2024
+
+Refactored the pre-existing `Person` class. Added unit tests to ensure the `Person` class functions correctly after the modifications. Began outlining the `Account` class, focusing on its attributes and methods related to tax status.
+For this class I had to use upper case due to a conflict with another package class definition. 
+
+## 14/06/2024
+
+Started the initial implementation of the `Account` class with attributes for different tax statuses (taxable, non-taxable, deferred taxable). Added preliminary methods to handle account-specific operations. Modified unit tests to include the `Account` class and verified its basic functionality.
+
+## 15/06/2024
+
+Enhanced the `Person` class to better integrate with the new `Account` class. Refined the initial structure and methods of the `Account` class for improved performance. Conducted preliminary tests to validate the operations of both classes.
+
+
+
+## 17/06/2024
+
+Continued development of the `Account` class, adding more detailed attributes and methods. Conducted a code review and performed initial testing to ensure robustness and accuracy. Began modifications to the `Household` class for integration with the `Account` and `Person` classes. Prepared for the next phase of development
+
+
+
+
 
 
 
