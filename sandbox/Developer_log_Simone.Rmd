@@ -212,6 +212,13 @@ Enhanced the `Person` class to better integrate with the new `Account` class. Re
 
 Continued development of the `Account` class, adding more detailed attributes and methods. Conducted a code review and performed initial testing to ensure robustness and accuracy. Began modifications to the `Household` class for integration with the `Account` and `Person` classes. Prepared for the next phase of development
 
+##18/06/2024
+
+I've started learning about the R environment. This  is particularly focused on how the R environment can be leveraged for the scenario analysis, specifically in terms of evaluating returns on various asset classes. The objective is to streamline the process of calculating returns by focusing on the values stored in the environment, thus minimizing the need for repetitive calculations and optimizing efficiency.
+
+##19/06/2024
+
+Pushed the constructor of account in the sandbox. I have some doubts about how the various assets should be stored there. I don't know exactly how we are planning on creating these assets and how they should be accessible in order to be used for further analysis. I was simply thinking of a list of lists, but now I'm looking at some packages to simulate assets and returns, considering how to make them compatible with the `account` class.
 
 
 
