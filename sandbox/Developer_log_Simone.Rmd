@@ -220,6 +220,15 @@ I've started learning about the R environment. This  is particularly focused on 
 
 Pushed the constructor of account in the sandbox. I have some doubts about how the various assets should be stored there. I don't know exactly how we are planning on creating these assets and how they should be accessible in order to be used for further analysis. I was simply thinking of a list of lists, but now I'm looking at some packages to simulate assets and returns, considering how to make them compatible with the `account` class.
 
+##21/06/2024
+
+#### Updates to Account Class
+
+Pushed some updates and changes to the `account` class. I am building it with the capability to store a `portfolio` object so that we can retrieve it, run simulations, and return the outcomes. 
+
+In general, I'm considering a `portfolio` object created with the `portfolio.spec` function from the `PortfolioAnalytics` package, as we will use this for rebalancing, returns, and managing all portfolio-related operations.
+
+I still have some doubts about how the portfolio should be stored, especially because, even though it is conceptually simple, it is still a little bit obscure how the environment for the return should work and how I should set up the bootstrapping for the scenario analysis.
 
 
 
