@@ -31,13 +31,15 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
   structure(account, class = c("account", "list"))
 }
 
+
+
 #' Add portfolio to the account
 #'
-#' This function adds a portfolio to the account.
+#' This function adds a portfolio to the account and environment.
 #'
 #' @param account The account object.
 #' @param portfolio_name The name of the portfolio.
-#' @param portfolio The portfolio object.
+#' @param portfolio The portfolio object (from the portfolio analytics package).
 #' @return The updated account object.
 #' @export
 add_portfolio_to_account <- function(account, portfolio_name, portfolio) {
@@ -46,5 +48,17 @@ add_portfolio_to_account <- function(account, portfolio_name, portfolio) {
 
   account$portfolios[[portfolio_name]] <- portfolio
   account$history[[length(account$history) + 1]] <- paste("Added portfolio:", portfolio_name)
+
+  # Add the portfolio to the environment
+  add_existing_portfolio_to_env(portfolio_name, portfolio)
+
   account
 }
+
+
+
+
+
+
+
+
