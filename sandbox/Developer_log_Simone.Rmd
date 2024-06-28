@@ -230,6 +230,49 @@ In general, I'm considering a `portfolio` object created with the `portfolio.spe
 
 I still have some doubts about how the portfolio should be stored, especially because, even though it is conceptually simple, it is still a little bit obscure how the environment for the return should work and how I should set up the bootstrapping for the scenario analysis.
 
+## 24/06/2024
+
+#### Study and Research on Environment Setup
+
+Spent time understanding how the environment should be configured for portfolio returns. Into the `PortfolioAnalytics` package documentation and  vignettes to comprehend the requirements and best practices for setting up the return environment. Specifically focused on:
+- How to input historical return data .
+- Methods for specifying constraints and objectives in the portfolio.
+- Techniques for simulating returns using bootstrapping and other statistical methods.
+
+## 25/06/2024
+
+#### Sandbox Implementation for Account Class
+
+
+- Created a method `add_portfolio` to include a `portfolio` object.
+- Implemented basic retrieval of the `portfolio` object for further analysis and simulation.
+
+## 26/06/2024
+
+#### Environment and Bootstrapping for Scenario Analysis
+
+Deepened understanding of bootstrapping techniques for scenario analysis:
+- Studied various bootstrapping methods to generate synthetic return series.
+- Tested different scenarios to evaluate the robustness of the portfolio under simulated market conditions.
+
+## 27/06/2024
+
+#### Improvements to Account Class
+
+Made some small updates to the `account` class:
+- Added basic functionality to specify different bootstrapping parameters.
+- Created a simple method to run and return basic results of the scenario analysis.
+
+
+## 28/06/2024
+
+#### Paper Summary
+
+Read a paper titled "Beyond Markowitz: A Comprehensive Wealth Allocation Framework for Individual Investors," shared on the Slack package channel. The paper introduces a wealth allocation framework that builds on Modern Portfolio Theory (MPT) by incorporating personal and aspirational risk factors, in addition to market risk, to better suit individual investors'
+
+
+
+
 
 
 
