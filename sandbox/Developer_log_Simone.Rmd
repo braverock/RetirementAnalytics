@@ -270,6 +270,30 @@ Made some small updates to the `account` class:
 
 Read a paper titled "Beyond Markowitz: A Comprehensive Wealth Allocation Framework for Individual Investors," shared on the Slack package channel. The paper introduces a wealth allocation framework that builds on Modern Portfolio Theory (MPT) by incorporating personal and aspirational risk factors, in addition to market risk, to better suit individual investors'
 
+## 1/07/2024
+
+## Overview
+
+The main tasks involved managing portfolio objects within an environment and implementing a method to estimate portfolio returns using a multivariate bootstrap approach.
+
+### Setting Up Portfolio Environment
+
+- Created a new environment, `portfolio_env`, to store and manage portfolio objects. This environment allows for efficient access and manipulation of portfolios by their names.
+
+### Functions for Managing Portfolio Objects
+
+- Implemented several functions to manage portfolios within the `portfolio_env` environment:
+
+  - `add_existing_portfolio_to_env`: Adds a given portfolio to the environment.
+  - `add_return_to_env_portfolio`: Adds a return value to a specified portfolio in the environment.
+  - `get_env_portfolio_returns`: Retrieves the returns from a specified portfolio in the environment.
+  - `calculate_env_portfolio_total_return`: Calculates the total return of a specified portfolio in the environment.
+
+### Estimating Portfolio Returns Using Multivariate Bootstrap
+
+- Implemented the `estimate_portfolio_return` function to estimate the return of portfolios using a multivariate bootstrap method. This function includes options for rebalancing and setting a fixed withdrawal amount(this should be implemented I just state the logic).
+
+
 
 
 
