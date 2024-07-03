@@ -294,7 +294,10 @@ The main tasks involved managing portfolio objects within an environment and imp
 - Implemented the `estimate_portfolio_return` function to estimate the return of portfolios using a multivariate bootstrap method. This function includes options for rebalancing and setting a fixed withdrawal amount(this should be implemented I just state the logic).
 
 
+## 2/07/2024
 
+Studied and refined code about multivariate bootstrapping simulation and return.
+Talked with the mentors and set-up a code base review so far and guidelines for the mid-project evalution 
 
 
 
