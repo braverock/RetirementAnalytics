@@ -299,7 +299,14 @@ The main tasks involved managing portfolio objects within an environment and imp
 Studied and refined code about multivariate bootstrapping simulation and return.
 Talked with the mentors and set-up a code base review so far and guidelines for the mid-project evalution 
 
+## 3/07/2024
 
+After the talk with Brian, I added the dot notation so that an experienced user could customize the simulation. The dots inside the function parameters and within the function calls are useful for providing the possibility to add additional, unspecified parameters.
+Additionally, I included the `tbootstrap` to handle time-series data and used bootstrapping with sampling with replacement to create different scenarios. This approach allows us to obtain the portfolio mean and cumulative return. One of the main goals of our simulation is to achieve a diversity of final outcomes. I also studied the documentation of the `boot` package.`
+
+## 4/07/2024
+Solved a problem with the `tboostrap`, now the block size are the empirical Autocorellation of the return of the portfolio. This gives the center of the geometric distribution and a stationary time-series as result.
+I'm planning to add also possibilities to select different block size, for example also the annual return in case of long-term plan.
 
 
 
