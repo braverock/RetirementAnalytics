@@ -7,31 +7,31 @@ add_existing_portfolio_to_env <- function(portfolio_name, portfolio) {
 }
 
 # Function to add a return to a portfolio in the environment
-add_return_to_env_portfolio <- function(portfolio_name, return_value) {
+add_return_to_env_portfolio <- function(portfolio_name, return_value, ...) {
   portfolio <- portfolio_env[[portfolio_name]]
   stopifnot(!is.null(portfolio), inherits(portfolio, "portfolio"))
 
   # Use the package's function to add return (placeholder check the actual portfolio an. function)
-  portfolio_add_return(portfolio, return_value)
+  portfolio_add_return(portfolio, return_value, ...)
   portfolio_env[[portfolio_name]] <- portfolio  # Update the environment with the modified portfolio
 }
 
 # Function to get returns from a portfolio in the environment
-get_env_portfolio_returns <- function(portfolio_name) {
+get_env_portfolio_returns <- function(portfolio_name, ...) {
   portfolio <- portfolio_env[[portfolio_name]]
   stopifnot(!is.null(portfolio), inherits(portfolio, "portfolio"))
 
   # Use the package's function to get returns (placeholder check the actual portfolio an. function)
-  portfolio_get_returns(portfolio)
+  portfolio_get_returns(portfolio, ...)
 }
 
 # Function to calculate total return of a portfolio in the environment
-calculate_env_portfolio_total_return <- function(portfolio_name) {
+calculate_env_portfolio_total_return <- function(portfolio_name, ...) {
   portfolio <- portfolio_env[[portfolio_name]]
   stopifnot(!is.null(portfolio), inherits(portfolio, "portfolio"))
 
   # Use the package's function to calculate total return (placeholder check the actual portfolio an. function)
-  portfolio_calculate_total_return(portfolio)
+  portfolio_calculate_total_return(portfolio, ...)
 }
 
 #' Create an account
@@ -43,9 +43,10 @@ calculate_env_portfolio_total_return <- function(portfolio_name) {
 #' @param portfolios A list of portfolio objects associated with the account. Default is an empty list.
 #' @param balance Initial balance of the account.
 #' @param taxable Logical or character indicating if the account is taxable. Can be FALSE, TRUE, or "deferred". Default is FALSE.
+#' @param ... Additional arguments.
 #' @return An account object.
 #' @export
-create_account <- function(account_name, person, portfolios = list(), balance = 0, taxable = FALSE) {
+create_account <- function(account_name, person, portfolios = list(), balance = 0, taxable = FALSE, ...) {
   # Check input validity
   stopifnot(is.character(account_name), is.character(person), is.numeric(balance))
 
@@ -74,9 +75,10 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
 #' @param account The account object.
 #' @param portfolio_name The name of the portfolio.
 #' @param portfolio The portfolio object (from the portfolio analytics package).
+#' @param ... Additional arguments.
 #' @return The updated account object.
 #' @export
-add_portfolio_to_account <- function(account, portfolio_name, portfolio) {
+add_portfolio_to_account <- function(account, portfolio_name, portfolio, ...) {
   # Check input validity
   stopifnot(inherits(account, "account"), is.character(portfolio_name), inherits(portfolio, "portfolio"))
 
@@ -97,9 +99,10 @@ add_portfolio_to_account <- function(account, portfolio_name, portfolio) {
 #' @param n_simulations The number of bootstrap simulations. Default is 1000.
 #' @param rebalance Logical indicating if rebalancing should be done after each simulation. Default is TRUE.
 #' @param withdraw_amount The fixed amount to withdraw in each period.
+#' @param ... Additional arguments.
 #' @return A list containing the simulated final balances and the probability of success.
 #' @export
-estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance = TRUE, withdraw_amount) {
+estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance = TRUE, withdraw_amount, ...) {
   stopifnot(inherits(account, "account"), is.numeric(n_simulations), is.numeric(withdraw_amount))
 
   portfolio_names <- names(account$portfolios)
@@ -110,12 +113,21 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance =
     data[indices, ]
   }
 
+  # Function to calculate the block length based on historical autocorrelation
+  calculate_block_length <- function(returns) {
+    acf_values <- acf(returns, plot = FALSE)$acf[-1]
+    autocorrelation <- sum(acf_values) / length(acf_values)
+    block_length <- max(1, round(1 / (1 - autocorrelation)))
+    return(block_length)
+  }
+
   # Function to simulate the portfolio returns
   simulate_returns <- function() {
     balance <- initial_balance
     for (name in portfolio_names) {
-      returns <- get_env_portfolio_returns(name)
-      boot_obj <- boot(data = returns, statistic = bootstrap_sample, R = n_simulations)
+      returns <- get_env_portfolio_returns(name, ...)
+      block_length <- calculate_block_length(returns)
+      boot_obj <- tsboot(data = returns, statistic = bootstrap_sample, R = n_simulations, l = block_length, sim = "geom")
       simulated_returns <- apply(boot_obj$t, 2, mean)
 
       for (ret in simulated_returns) {
@@ -138,11 +150,7 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance =
   list(final_balances = final_balances, probability_of_success = prob_success)
 }
 
-# Example usage:
-# account <- create_account("Retirement Account", "John Doe", balance = 100000, taxable = TRUE)
-# portfolio1 <- create_portfolio(...) # Assuming you have a function to create a portfolio
-# portfolio2 <- create_portfolio(...)
-# account <- add_portfolio_to_account(account, "Portfolio1", portfolio1)
-# account <- add_portfolio_to_account(account, "Portfolio2", portfolio2)
-# result <- estimate_portfolio_return(account, n_simulations = 1000, withdraw_amount = 5000)
-# print(result)
+
+
+
+
