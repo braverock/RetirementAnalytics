@@ -308,6 +308,27 @@ Additionally, I included the `tbootstrap` to handle time-series data and used bo
 Solved a problem with the `tboostrap`, now the block size are the empirical Autocorellation of the return of the portfolio. This gives the center of the geometric distribution and a stationary time-series as result.
 I'm planning to add also possibilities to select different block size, for example also the annual return in case of long-term plan.
 
+## 05/07/2024
+
+Continued refining the implementation of the `tbootstrap` function, ensuring that the block size now uses the empirical autocorrelation of the portfolio returns. This adjustment helps maintain the stationary nature of the time-series data. Started exploring different block sizes, such as annual returns, for long-term planning. This flexibility will provide more accurate simulations based on different time horizons.
+
+## 08/07/2024
+
+Began implementing actual simulations using the newly refined `tbootstrap` function. Focused on integrating real-world data from free online providers to enhance the realism and accuracy of the simulations. Held discussions with mentors regarding the data sources and the overall direction of the project. These conversations have been important in shaping the next steps and ensuring a successful midterm evaluation.
+
+## 09/07/2024
+
+Worked on establishing a reliable pipeline for fetching and processing real-world data from online sources. Discussed with mentors the importance of validating the data before using it in simulations.
+
+## 10/07/2024
+
+Implemented initial tests using the real-world data to run simulations. Encountered and resolved several bugs related to data formatting and compatibility with the `tbootstrap` function. Continued fine-tuning the data integration process to streamline future simulations.
+
+
+## 12/07/2024
+
+Passed the midterm evaluation! Continued discussions with mentors to fine-tune the implementation and plan future enhancements. The next steps include improving data integration, adding more customization options for users, and conducting extensive testing to validate the simulation results.
+
 
 
 
