@@ -330,7 +330,11 @@ Implemented initial tests using the real-world data to run simulations. Encounte
 Passed the midterm evaluation! Continued discussions with mentors to fine-tune the implementation and plan future enhancements. The next steps include improving data integration, adding more customization options for users, and conducting extensive testing to validate the simulation results.
 
 
+## 26/07/2024
 
+This week, I focused on integrating external data sources like Quandl and Tiingo into the R package. This involved setting up secure handling of API credentials and fetching historical financial data. Additionally, I implemented rebalancing functionality using `Return.portfolio` from the PerformanceAnalytics package, allowing for more accurate and dynamic portfolio management.
+
+Progress was somewhat slower due to preparations  for my master thesis defence. However, I'm back on track and will continue to enhance the package's features and usability in the coming weeks.
 
 
 
