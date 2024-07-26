@@ -12,3 +12,6 @@
 settings.json
 *_files
 *.html
+inst/doc
+# Ignore API credentials file
+private_creds.R

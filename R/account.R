@@ -103,6 +103,36 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
 }
 
 
+library(quantmod)
+
+#' Fetch and Store Historical Data
+#'
+#' This function fetches historical data for a given symbol and stores it in the portfolio environment.
+#'
+#' @param symbol A string representing the financial instrument's symbol.
+#' @param source The data source, e.g., "tiingo" or "quandl".
+#' @param ... Additional arguments passed to getSymbols.
+#' @return None
+#' @export
+fetch_and_store_data <- function(symbol, source = "tiingo", ...) {
+  if (source == "tiingo") {
+    api_key <- Sys.getenv("TIINGO_API_KEY")
+    if (api_key == "") stop("Tiingo API key not found.")
+    getSymbols(symbol, src = "tiingo", api.key = api_key, auto.assign = TRUE, ...)
+  } else if (source == "quandl") {
+    api_key <- Sys.getenv("QUANDL_API_KEY")
+    if (api_key == "") stop("Quandl API key not found.")
+    getSymbols(symbol, src = "quandl", api.key = api_key, auto.assign = TRUE, ...)
+  } else {
+    stop("Unsupported data source.")
+  }
+  portfolio_env[[symbol]] <- get(symbol)
+}
+
+
+
+
+
 #' Add Portfolio to the Account
 #'
 #' This function adds a portfolio to the account and environment.
@@ -124,6 +154,28 @@ add_portfolio_to_account <- function(account, portfolio_name, portfolio, ...) {
   return(account)
 }
 
+#' Rebalance Portfolio
+#'
+#' This function rebalances the portfolio using the specified target allocation.
+#'
+#' @param portfolio_name A string representing the name of the portfolio.
+#' @param target_allocation A named vector of target weights for each asset in the portfolio.
+#' @param rebalance_dates A vector of dates when rebalancing should occur.
+#' @param ... Additional arguments passed to Return.portfolio.
+#' @return A list containing the rebalanced portfolio returns.
+#' @export
+rebalance_portfolio <- function(portfolio_name, target_allocation, rebalance_dates, ...) {
+  portfolio <- portfolio_env[[portfolio_name]]
+  stopifnot(!is.null(portfolio), inherits(portfolio, "xts"))
+
+  if (!is.vector(target_allocation) || !all(names(target_allocation) %in% colnames(portfolio))) {
+    stop("Target allocation must be a named vector with names matching portfolio columns.")
+  }
+
+  rebalanced_returns <- Return.portfolio(R = portfolio, weights = target_allocation, rebalance_on = rebalance_dates, ...)
+  rebalanced_returns
+}
+
 
 #' Estimate Portfolio Return using Multivariate Bootstrap
 #'
@@ -136,7 +188,7 @@ add_portfolio_to_account <- function(account, portfolio_name, portfolio, ...) {
 #' @param ... Additional arguments.
 #' @return A list containing the simulated final balances and the probability of success.
 #' @export
-estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance = TRUE, withdraw_amount, ...) {
+estimate_portfolio_return <- function(account, n_simulations = 1000, target_allocation, rebalance_dates, withdraw_amount, ...) {
   stopifnot(inherits(account, "account"), is.numeric(n_simulations), is.numeric(withdraw_amount))
 
   portfolio_names <- names(account$portfolios)
@@ -159,16 +211,11 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance =
   simulate_returns <- function() {
     balance <- initial_balance
     for (name in portfolio_names) {
-      returns <- get_env_portfolio_returns(name, ...)
-      block_length <- calculate_block_length(returns)
-      boot_obj <- tsboot(tseries = returns, statistic = bootstrap_sample, R = n_simulations, l = block_length, sim = "geom")
-      simulated_returns <- apply(boot_obj$t, 2, mean)
+      portfolio <- portfolio_env[[name]]
+      returns <- rebalance_portfolio(name, target_allocation, rebalance_dates, ...)
 
-      for (ret in simulated_returns) {
+      for (ret in returns) {
         balance <- balance * (1 + ret) - withdraw_amount
-        if (rebalance) {
-          balance <- balance / length(portfolio_names)
-        }
       }
     }
     balance
