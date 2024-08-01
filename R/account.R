@@ -1,5 +1,6 @@
 library(PerformanceAnalytics)
 library(boot)
+library(quantmod)
 
 portfolio_env <- new.env()
 
@@ -103,8 +104,6 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
 }
 
 
-library(quantmod)
-
 #' Fetch and Store Historical Data
 #'
 #' This function fetches historical data for a given symbol and stores it in the portfolio environment.
@@ -114,7 +113,9 @@ library(quantmod)
 #' @param ... Additional arguments passed to getSymbols.
 #' @return None
 #' @export
-fetch_and_store_data <- function(symbol, source = "tiingo", ...) {
+fetch <- function(symbol, source = "tiingo", ...) {
+  source("private_creds.R")  # Load the API keys from the private_creds.R file
+
   if (source == "tiingo") {
     api_key <- Sys.getenv("TIINGO_API_KEY")
     if (api_key == "") stop("Tiingo API key not found.")
@@ -128,10 +129,6 @@ fetch_and_store_data <- function(symbol, source = "tiingo", ...) {
   }
   portfolio_env[[symbol]] <- get(symbol)
 }
-
-
-
-
 
 #' Add Portfolio to the Account
 #'
@@ -229,3 +226,4 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, target_allo
 
   list(final_balances = final_balances, probability_of_success = prob_success)
 }
+
