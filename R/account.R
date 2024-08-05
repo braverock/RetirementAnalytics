@@ -37,7 +37,6 @@ add_return_to_env_portfolio <- function(portfolio_name, return_value, ...) {
   portfolio_env[[portfolio_name]] <- portfolio  # Update the environment with the modified portfolio
 }
 
-
 #' Get Returns from a Portfolio in the Environment
 #'
 #' This function retrieves the returns of a specified portfolio from the global environment.
@@ -102,7 +101,6 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
 
   structure(account, class = c("account", "list"))
 }
-
 
 #' Fetch and Store Historical Data
 #'
@@ -173,7 +171,6 @@ rebalance_portfolio <- function(portfolio_name, target_allocation, rebalance_dat
   rebalanced_returns
 }
 
-
 #' Estimate Portfolio Return using Multivariate Bootstrap
 #'
 #' This function estimates the return of a portfolio using Multivariate Bootstrap.
@@ -182,10 +179,13 @@ rebalance_portfolio <- function(portfolio_name, target_allocation, rebalance_dat
 #' @param n_simulations The number of bootstrap simulations. Default is 1000.
 #' @param rebalance Logical indicating if rebalancing should be done after each simulation. Default is TRUE.
 #' @param withdraw_amount The fixed amount to withdraw in each period.
+#' @param target_allocation A named vector of target weights for each asset in the portfolio. Default is 60-40 allocation.
+#' @param rebalance_dates A vector of dates when rebalancing should occur. Default is "months".
 #' @param ... Additional arguments.
 #' @return A list containing the simulated final balances and the probability of success.
 #' @export
-estimate_portfolio_return <- function(account, n_simulations = 1000, target_allocation, rebalance_dates, withdraw_amount, ...) {
+estimate_portfolio_return <- function(account, n_simulations = 1000, rebalance = TRUE, withdraw_amount,
+                                      target_allocation = c(0.6, 0.4), rebalance_dates = "months", ...) {
   stopifnot(inherits(account, "account"), is.numeric(n_simulations), is.numeric(withdraw_amount))
 
   portfolio_names <- names(account$portfolios)
@@ -198,9 +198,9 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, target_allo
 
   # Function to calculate the block length based on historical autocorrelation
   calculate_block_length <- function(returns) {
-    acf_values <- acf(returns, plot = FALSE)$acf[-1]
-    autocorrelation <- sum(acf_values) / length(acf_values)
-    block_length <- max(1, round(1 / (1 - autocorrelation)))
+    correlation_matrix <- cor(returns)
+    avg_correlation <- mean(correlation_matrix[lower.tri(correlation_matrix)])
+    block_length <- max(1, round(1 / (1 - avg_correlation)))
     return(block_length)
   }
 
@@ -211,7 +211,11 @@ estimate_portfolio_return <- function(account, n_simulations = 1000, target_allo
       portfolio <- portfolio_env[[name]]
       returns <- rebalance_portfolio(name, target_allocation, rebalance_dates, ...)
 
-      for (ret in returns) {
+      block_length <- calculate_block_length(returns)
+      bootstrapped_returns <- tsbootstrap(returns, statistic = bootstrap_sample,
+                                          R = 1, l = block_length, sim = "fixed")
+
+      for (ret in bootstrapped_returns) {
         balance <- balance * (1 + ret) - withdraw_amount
       }
     }
