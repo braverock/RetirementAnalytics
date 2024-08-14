@@ -352,10 +352,12 @@ Another significant enhancement will be the integration of a basic tax system in
 
 Finally, if time permits, I intend to develop a visualization tool to present the simulation results more effectively. This tool would ideally take the form of a probability graph with an Area Under the Curve (AUC) representation. Such a visualization would enhance the user’s ability to interpret and utilize the simulation outcomes.
 
+#14/08/2024
 
 
-
-
+Covered more aspetc of account simulation with the unit test.
+Some test failed, but I think the problem is in the test and not in the simulation, next step is to try to fix it.
+Especially to investigate further the return environment and the bootstrap handling 
 
 
 
