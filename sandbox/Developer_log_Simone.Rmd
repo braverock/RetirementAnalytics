@@ -337,6 +337,26 @@ This week, I focused on integrating external data sources like Quandl and Tiingo
 Progress was somewhat slower due to preparations  for my master thesis defence. However, I'm back on track and will continue to enhance the package's features and usability in the coming weeks.
 
 
+## 6/08/2024-12/08/2024
+Holiday
+
+## Goals and Objectives
+
+At this stage of the project, I have primarily focused on establishing the foundational structure for representing individuals and households within the simulation framework. This foundational work has been crucial in ensuring that the core components of the simulation are robust and capable of supporting more advanced features in the future.
+
+Moving forward, my next major objective for the final phase of the Google Summer of Code (GSOC) project is to refine and enhance the simulation capabilities. A key aspect of this refinement will involve introducing more customizable portfolio options. Currently, the simulation operates with a default 60-40 portfolio split. While this provides a solid baseline, it limits the complexity and flexibility of the simulations. By allowing users to define and implement more tailored portfolio configurations, we can better simulate a wide range of financial strategies and scenarios, thereby making the tool more versatile and valuable for different use cases.
+
+In addition to expanding portfolio customization, I plan to rigorously test these enhancements using unit tests. Ensuring that the new features are thoroughly vetted will be critical to maintaining the integrity and reliability of the simulation as it becomes more complex.
+
+Another significant enhancement will be the integration of a basic tax system into the account simulations. This will involve developing three primary account classes: non-taxable, deferred, and taxable accounts. For taxable accounts, in particular, I aim to include a flat tax calculation mechanism. This feature may also be customizable by the user, providing greater flexibility in how taxes are modeled within the simulation. Incorporating tax considerations will add a layer of realism to the simulations, allowing for more accurate and meaningful analyses.
+
+Finally, if time permits, I intend to develop a visualization tool to present the simulation results more effectively. This tool would ideally take the form of a probability graph with an Area Under the Curve (AUC) representation. Such a visualization would enhance the user’s ability to interpret and utilize the simulation outcomes.
+
+
+
+
+
+
 
 
 
