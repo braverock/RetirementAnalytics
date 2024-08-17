@@ -77,14 +77,16 @@ calculate_env_portfolio_total_return <- function(portfolio_name, ...) {
 #' @param portfolios A list of portfolio objects associated with the account. Default is an empty list.
 #' @param balance Initial balance of the account.
 #' @param taxable Logical or character indicating if the account is taxable. Can be FALSE, TRUE, or "deferred". Default is FALSE.
+#' @param tax_rate Numeric value representing the tax rate. This should be provided if taxable is TRUE or "deferred".
 #' @param ... Additional arguments.
 #' @return An account object.
 #' @export
-create_account <- function(account_name, person, portfolios = list(), balance = 0, taxable = FALSE, ...) {
+create_account <- function(account_name, person, portfolios = list(), balance = 0, taxable = FALSE, tax_rate = 0, ...) {
   stopifnot(is.character(account_name), is.character(person), is.numeric(balance))
   valid_taxable_values <- c(FALSE, TRUE, "deferred")
   stopifnot(taxable %in% valid_taxable_values)
   stopifnot(is.list(portfolios))
+  if (taxable != FALSE) stopifnot(is.numeric(tax_rate) && tax_rate >= 0 && tax_rate <= 1)
 
   for (portfolio in portfolios) {
     stopifnot(inherits(portfolio, "xts"))
@@ -96,11 +98,48 @@ create_account <- function(account_name, person, portfolios = list(), balance = 
     portfolios = portfolios,
     balance = balance,
     taxable = taxable,
+    tax_rate = ifelse(taxable == FALSE, 0, tax_rate),
     history = list()
   )
 
   structure(account, class = c("account", "list"))
 }
+
+
+#' Withdraw Funds from Account
+#'
+#' This function withdraws funds from the account, applying taxes if necessary.
+#'
+#' @param account The account object.
+#' @param amount The amount to withdraw.
+#' @param ... Additional arguments.
+#' @return The updated account object and the actual withdrawn amount after taxes (if any).
+#' @export
+withdraw_from_account <- function(account, amount, ...) {
+  stopifnot(inherits(account, "account"), is.numeric(amount), amount > 0)
+
+  actual_withdrawal <- amount
+  if (account$taxable == "deferred") {
+    tax_amount <- amount * account$tax_rate
+    actual_withdrawal <- amount - tax_amount
+    account$balance <- account$balance - amount  # Subtract full amount including tax
+  } else if (account$taxable == TRUE) {
+    tax_amount <- amount * account$tax_rate
+    actual_withdrawal <- amount - tax_amount
+    account$balance <- account$balance - actual_withdrawal
+  } else {
+    account$balance <- account$balance - amount
+  }
+
+  account$history[[length(account$history) + 1]] <- paste("Withdrew", amount, "from account:", account$account_name)
+
+  return(list(account = account, actual_withdrawal = actual_withdrawal))
+}
+
+
+
+
+
 
 #' Fetch and Store Historical Data
 #'
